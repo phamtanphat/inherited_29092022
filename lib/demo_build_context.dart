@@ -40,7 +40,8 @@ class ContainerWidget extends StatefulWidget {
 
 class _ContainerWidgetState extends State<ContainerWidget> {
 
-  int count = 0;
+  int count = 10;
+  String message = "";
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +49,38 @@ class _ContainerWidgetState extends State<ContainerWidget> {
       child: Column(
         children: [
           Text("Count: $count"),
+          Text("Message: $message"),
           ElevatedButton(onPressed: (){
-
+            setState((){
+              message += "a";
+            });
           }, child: Text("Increase")),
-          widget.child
+          MyInheritedWidget(
+              child: widget.child,
+              count: count,
+              message: message,
+          )
         ],
       ),
     );
   }
+}
+
+class MyInheritedWidget extends InheritedWidget{
+  int count;
+  String message;
+
+  MyInheritedWidget({required super.child, required this.count, required this.message});
+
+  static of(BuildContext context){
+    return context.dependOnInheritedWidgetOfExactType<MyInheritedWidget>();
+  }
+
+  @override
+  bool updateShouldNotify(covariant MyInheritedWidget oldWidget) {
+    return oldWidget.count != count;
+  }
+
 }
 
 
@@ -77,6 +102,7 @@ class Ongba extends StatefulWidget {
 class _OngbaState extends State<Ongba> {
   @override
   Widget build(BuildContext context) {
+    print("Ong ba Build");
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -99,6 +125,7 @@ class Chame extends StatefulWidget {
 class _ChameState extends State<Chame> {
   @override
   Widget build(BuildContext context) {
+    print("Cha me Build");
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -118,8 +145,10 @@ class ConCai extends StatefulWidget {
 class _ConCaiState extends State<ConCai> {
   @override
   Widget build(BuildContext context) {
+    print("Con cai Build");
+    MyInheritedWidget inheritedWidget = MyInheritedWidget.of(context);
     return Container(
-      child: Text("Con cái"),
+      child: Text("Con cái ${inheritedWidget.count}"),
     );
   }
 }
