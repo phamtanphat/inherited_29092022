@@ -28,9 +28,14 @@ class _DemoBuildContextPageState extends State<DemoBuildContextPage> {
 }
 
 class Ongba extends StatefulWidget {
+  String label = "OngBa Label";
   Widget child;
 
   Ongba({required this.child});
+
+  static of(BuildContext context){
+    return context.findAncestorWidgetOfExactType<Ongba>();
+  }
 
   @override
   State<Ongba> createState() => _OngbaState();
@@ -61,10 +66,11 @@ class Chame extends StatefulWidget {
 class _ChameState extends State<Chame> {
   @override
   Widget build(BuildContext context) {
+    Ongba? ongba = Ongba.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Cha me"),
+        Text("Cha me ${ongba?.label}"),
         widget.child
       ],
     );
