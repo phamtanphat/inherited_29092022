@@ -16,16 +16,48 @@ class _DemoBuildContextPageState extends State<DemoBuildContextPage> {
       body: Container(
         constraints: BoxConstraints.expand(),
         child: Center(
-          child: Ongba(
-            child: Chame(
-              child: ConCai(),
+          child: ContainerWidget(
+            child: Ongba(
+              child: Chame(
+                child: ConCai(),
+              ),
             ),
-          ),
+          )
         ),
       ),
     );
   }
 }
+
+class ContainerWidget extends StatefulWidget {
+  Widget child;
+
+  ContainerWidget({required this.child});
+
+  @override
+  State<ContainerWidget> createState() => _ContainerWidgetState();
+}
+
+class _ContainerWidgetState extends State<ContainerWidget> {
+
+  int count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Text("Count: $count"),
+          ElevatedButton(onPressed: (){
+
+          }, child: Text("Increase")),
+          widget.child
+        ],
+      ),
+    );
+  }
+}
+
 
 class Ongba extends StatefulWidget {
   String label = "OngBa Label";
@@ -39,6 +71,7 @@ class Ongba extends StatefulWidget {
 
   @override
   State<Ongba> createState() => _OngbaState();
+
 }
 
 class _OngbaState extends State<Ongba> {
@@ -66,11 +99,10 @@ class Chame extends StatefulWidget {
 class _ChameState extends State<Chame> {
   @override
   Widget build(BuildContext context) {
-    Ongba? ongba = Ongba.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Cha me ${ongba?.label}"),
+        Text("Cha me"),
         widget.child
       ],
     );
